@@ -3,12 +3,14 @@ const { FormatData } = require("../utils");
 const nodeMailer = require("nodemailer");
 const Notification = require("../database/models/Notification");
 require("dotenv").config();
-class ShoppingService {
+class NotificationService {
   // constructor() {
   //   this.repository = new NotificationRepository();
   // }
 
   async sendCheckoutEmail(recipientEmail, orderId, items, amount) {
+    let itemsBought = "";
+
     try {
       const transporter = nodeMailer.createTransport({
         host: "smtp.gmail.com",
@@ -19,30 +21,30 @@ class ShoppingService {
           pass: process.env.APP_PASSWORD,
         },
       });
-      let itemsBought = "";
       for (let i = 0; i < items.length; i++) {
-        itemsBought += `${i.product.name}, `;
+        itemsBought += `${items[i].product.name}, `;
       }
-      let emailContent = `<h3>Chale, you have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`;
 
       const mail = await transporter.sendMail({
         from: '"MultiVendorApplication" <sama29571@gmail.com>',
         to: recipientEmail,
         subject: "Checkout created",
-        html: emailContent,
+        html:  `<h3>Chale, you have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`
+        
       });
 
       console.log("Email sent successfully:", mail.messageId);
     } catch (err) {
       console.error("Error sending email:", err);
     }
+    let emailContent=`<h3>Chale, you have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`
 
     const notification = new Notification({
       recepient: recipientEmail,
-      content: emailContent,
+      content:  emailContent
     });
-    notification = await notification.save();
-    console.log("SAVED NOTIFICATION", notification);
+    const newNotification = await notification.save();
+    console.log("SAVED NOTIFICATION", newNotification);
   }
 
   async SubscribeEvents(payload) {
@@ -51,7 +53,9 @@ class ShoppingService {
     console.log(payload);
     const { event, data } = payload;
     const { userEmail, order } = data;
-
+    
+    console.log('ORDER ITEMS IN NOTIF SERVICE???????',order.items)
+console.log(data)
     switch (event) {
       case "SEND_CHECKOUT_CONFIRMATION_MAIL":
         this.sendCheckoutEmail(
@@ -65,31 +69,5 @@ class ShoppingService {
   }
 }
 
-module.exports = ShoppingService;
+module.exports = NotificationService;
 
-// async function sendEmail(recipientEmail) {
-//   try {
-//     const transporter = nodeMailer.createTransport({
-//       host: 'smtp.gmail.com',
-//       port: 465,
-//       secure: true,
-//       auth: {
-//         user: 'sama29571@gmail.com',
-//         pass: 'cecx fxrb ulle kzax',  // App-specific password for the sender's email
-//       },
-//     });
-
-//     const mail = await transporter.sendMail({
-//       from: '"Your App" <sama29571@gmail.com>', // Sender details
-//       to: recipientEmail,                      // Dynamic recipient email
-//       subject: 'Checkout created',            // Subject of the email
-//       html: '<h3>Chale, you have created a checkout</h3>', // Email body in HTML
-//     });
-
-//     console.log('Email sent successfully:', mail.messageId);
-//   } catch (err) {
-//     console.log('Error sending email:', err);
-//   }
-// }
-
-// sendEmail('adamssamuel9955@gmail.com')

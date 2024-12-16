@@ -1,6 +1,6 @@
 const NotificationService = require("../services/notification-service");
 const { PublishCustomerEvent, SubscribeMessage } = require("../utils");
-const  auth = require('./middlewares/auth');
+const  auth = require('./middleware/auth');
 const { PublishMessage } = require('../utils')
 
 notificationRoutes = (app, channel) => {
