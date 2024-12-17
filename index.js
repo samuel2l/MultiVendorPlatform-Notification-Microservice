@@ -24,7 +24,6 @@ async function startApp() {
     
 
     await notificationRoutes(app, channel);
-    // appEvents(app);
     app.listen(8004, () => {
       console.log("Notifications is Listening to Port 8004");
     });
