@@ -29,7 +29,7 @@ class NotificationService {
         from: '"MultiVendorApplication" <sama29571@gmail.com>',
         to: recipientEmail,
         subject: "Checkout created",
-        html:  `<h3>Chale, you have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`
+        html:  `<h3>You have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`
         
       });
 
@@ -54,7 +54,7 @@ class NotificationService {
     const { event, data } = payload;
     const { userEmail, order } = data;
     
-    console.log('ORDER ITEMS IN NOTIF SERVICE???????',order.items)
+    console.log('ORDER ITEMS IN NOTIF SERVICE?',order.items)
 console.log(data)
     switch (event) {
       case "SEND_CHECKOUT_CONFIRMATION_MAIL":
