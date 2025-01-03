@@ -17,7 +17,7 @@ class NotificationService {
         port: 465,
         secure: true,
         auth: {
-          user: "sama29571@gmail.com",
+          user: `${process.env.EMAIL_ADDRESS}`,
           pass: process.env.APP_PASSWORD,
         },
       });
@@ -26,7 +26,7 @@ class NotificationService {
       }
 
       const mail = await transporter.sendMail({
-        from: '"MultiVendorApplication" <sama29571@gmail.com>',
+        from: `"MultiVendorApplication" <${process.env.EMAIL_ADDRESS}>`,
         to: recipientEmail,
         subject: "Checkout created",
         html:  `<h3>You have created a checkout foor ${amount} dollars. Your order id is ${orderId} for the items: ${itemsBought}. If this was not done by you contact our customer support</h3>`
