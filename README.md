@@ -19,7 +19,6 @@ The **Notification Service** is a microservice responsible for handling notifica
 - **MongoDB:** Database for storing product information.
 - **Mongoose:** ORM for MongoDB interactions.
 - **RabbitMQ:** Message broker for communication with other microservices (e.g., Order, Search).
-- **Cloudinary:** (Optional) For handling product image uploads.
 
 ---
 
