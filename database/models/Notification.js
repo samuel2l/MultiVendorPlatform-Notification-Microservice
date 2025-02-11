@@ -22,7 +22,9 @@ const NotificationSchema = new mongoose.Schema(
     //   default: "sent",
     // },
   },
-  { timestamps: true }
+  { timestamps: true, 
+  optimisticConcurrency:true
+  }
 );
 
 // Middleware to update `updatedAt` on save
